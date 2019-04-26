@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
+cur_dir="$(dirname "${BASH_SOURCE[0]}")"
+
 __prompt_command() {
   local EXIT="$?"
   PS1=""
 
   # Setup prompt colors
-  try_source "$s/color-helpers/prompt_colors"
+  try_source "$cur_dir/prompt_colors"
 
   history -a
   echo -ne "\033]1;$(basename $(pwd | sed "s|$HOME|~|"))\007"
@@ -34,6 +36,5 @@ __prompt_command() {
 
 export PROMPT_COMMAND=__prompt_command
 
-try_source "$s/color-helpers/bash_colors"
+try_source "$cur_dir/bash_colors"
 try_source "/etc/bash_completion"
-
