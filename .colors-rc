@@ -6,6 +6,8 @@ __prompt_command() {
   local EXIT="$?"
   PS1=""
 
+  local cur_dir="$(dirname "${BASH_SOURCE[0]}")"
+
   # Setup prompt colors
   try_source "$cur_dir/prompt_colors"
 
