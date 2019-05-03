@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cur_dir="$(dirname "${BASH_SOURCE[0]}")"
+local cur_dir="$(dirname "${BASH_SOURCE[0]}")"
 
 __prompt_command() {
   local EXIT="$?"
