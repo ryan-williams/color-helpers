@@ -40,3 +40,7 @@ export PROMPT_COMMAND=__prompt_command
 
 try_source "$cur_dir/bash_colors"
 try_source "/etc/bash_completion"
+
+if [ -s "$HOME"/.dircolors ] && which dircolors &>/dev/null; then
+  eval "$(dircolors ~/.dircolors)"
+fi
