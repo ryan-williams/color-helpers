@@ -2,6 +2,8 @@
 
 local cur_dir="$(dirname "${BASH_SOURCE[0]}")"
 
+export GIT_PROMPT=1
+
 __prompt_command() {
   local EXIT="$?"
   PS1=""
@@ -32,7 +34,11 @@ __prompt_command() {
   PS1+="${BGreen}\h${clear}"
   PS1+=": "
   PS1+="${BPurple}\W${clear}"
-  PS1+="${BRed}\$(__git_ps1 :%s)${clear}"
+  if [ -z "$GIT_PROMPT" ]; then
+    PS1+="${BRed}${clear}"
+  else
+    PS1+="${BRed}\$(__git_ps1 :%s)${clear}"
+  fi
   PS1+="\$ "
 }
 
