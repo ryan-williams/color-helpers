@@ -14,7 +14,7 @@ __prompt_command() {
   try_source "$cur_dir/prompt_colors"
 
   history -a
-  echo -ne "\033]1;$(basename $(pwd | sed "s|$HOME|~|"))\007"
+  echo -ne "\033]1;$(basename "$(pwd)")\007"
 
   # Red background if previous command failed, yellow otherwise.
   if [ $EXIT != 0 ]; then
