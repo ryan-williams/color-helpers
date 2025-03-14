@@ -52,7 +52,7 @@ export On_Purple="\033[45m"      # Purple
 export On_Cyan="\033[46m"        # Cyan
 export On_White="\033[47m"       # White
 
-# High Intensty
+# High Intensity
 export IBlack="\033[0;90m"       # Black
 export IRed="\033[0;91m"         # Red
 export IGreen="\033[0;92m"       # Green
@@ -62,7 +62,7 @@ export IPurple="\033[0;95m"      # Purple
 export ICyan="\033[0;96m"        # Cyan
 export IWhite="\033[0;97m"       # White
 
-# Bold High Intensty
+# Bold High Intensity
 export BIBlack="\033[1;90m"      # Black
 export BIRed="\033[1;91m"        # Red
 export BIGreen="\033[1;92m"      # Green
@@ -72,7 +72,7 @@ export BIPurple="\033[1;95m"     # Purple
 export BICyan="\033[1;96m"       # Cyan
 export BIWhite="\033[1;97m"      # White
 
-# High Intensty backgrounds
+# High Intensity backgrounds
 export On_IBlack="\033[0;100m"   # Black
 export On_IRed="\033[0;101m"     # Red
 export On_IGreen="\033[0;102m"   # Green
