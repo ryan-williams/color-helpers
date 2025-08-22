@@ -42,7 +42,8 @@ __prompt_command() {
   PS1+="\$ "
 }
 
-export PROMPT_COMMAND=__prompt_command
+# Append to PROMPT_COMMAND instead of overwriting it (preserves direnv hook)
+export PROMPT_COMMAND="${PROMPT_COMMAND}${PROMPT_COMMAND:+;}__prompt_command"
 
 try_source "$cur_dir/bash_colors"
 try_source "/etc/bash_completion"
