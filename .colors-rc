@@ -43,7 +43,11 @@ __prompt_command() {
 }
 
 # Append to PROMPT_COMMAND instead of overwriting it (preserves direnv hook)
-export PROMPT_COMMAND="${PROMPT_COMMAND}${PROMPT_COMMAND:+;}__prompt_command"
+# Only add if not already present to avoid duplicates
+# Check for exact match with word boundaries (semicolon or start/end of string)
+if [[ ! "$PROMPT_COMMAND" =~ (^|;)__prompt_command(;|$) ]]; then
+  export PROMPT_COMMAND="${PROMPT_COMMAND}${PROMPT_COMMAND:+;}__prompt_command"
+fi
 
 try_source "$cur_dir/bash_colors"
 try_source "/etc/bash_completion"
