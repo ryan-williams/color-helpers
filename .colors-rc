@@ -14,7 +14,37 @@ __prompt_command() {
   try_source "$cur_dir/prompt_colors"
 
   history -a
-  echo -ne "\033]1;$(basename "$(pwd)")\007"
+
+  # Show repo//subdir when in a subdirectory, worktree, or submodule
+  local prompt_dir toplevel
+  if toplevel="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+    local cwd="$(pwd)"
+    local repo="$(basename "$toplevel")"
+    if [ "$cwd" != "$toplevel" ]; then
+      local rel="${cwd#$toplevel/}"
+      if [[ "$rel" == */* ]]; then
+        # 2+ levels deep: PROMPT_DIR_SHORT=1 for repo//basename, default to full relpath
+        if [ -n "$PROMPT_DIR_SHORT" ]; then
+          prompt_dir="${repo}//$(basename "$rel")"
+        else
+          prompt_dir="${repo}/${rel}"
+        fi
+      else
+        prompt_dir="${repo}/${rel}"
+      fi
+    elif [ -f "$toplevel/.git" ]; then
+      # Worktree or submodule: .git is a file, not a directory
+      local common_dir
+      common_dir="$(git rev-parse --git-common-dir 2>/dev/null)"
+      prompt_dir="$(basename "${common_dir%/.git*}")/${repo}"
+    else
+      prompt_dir="$repo"
+    fi
+  else
+    prompt_dir="$(basename "$(pwd)")"
+  fi
+
+  echo -ne "\033]1;${prompt_dir}\007"
 
   # Red background if previous command failed, yellow otherwise.
   if [ $EXIT != 0 ]; then
@@ -33,7 +63,7 @@ __prompt_command() {
   PS1+="@"
   PS1+="${BGreen}\h${clear}"
   PS1+=": "
-  PS1+="${BPurple}\W${clear}"
+  PS1+="${BPurple}${prompt_dir}${clear}"
   if [ -z "$GIT_PROMPT" ]; then
     PS1+="${BRed}${clear}"
   else
