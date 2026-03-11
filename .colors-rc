@@ -34,9 +34,18 @@ __prompt_command() {
       fi
     elif [ -f "$toplevel/.git" ]; then
       # Worktree or submodule: .git is a file, not a directory
-      local common_dir
+      local common_dir project_root
       common_dir="$(git rev-parse --git-common-dir 2>/dev/null)"
-      prompt_dir="$(basename "${common_dir%/.git*}")/${repo}"
+      # Project root is parent of the git dir. common_dir may be:
+      #   /path/to/project/.git                (normal repo)
+      #   /path/to/project/.git/modules/name   (submodule)
+      #   /path/to/project/.bare               (bare repo, or any non-.git name)
+      # Strip from /.git component if present, otherwise just dirname.
+      project_root="${common_dir%/.git*}"
+      if [ "$project_root" = "$common_dir" ]; then
+        project_root="$(dirname "$common_dir")"
+      fi
+      prompt_dir="$(basename "$project_root")/${repo}"
     else
       prompt_dir="$repo"
     fi
